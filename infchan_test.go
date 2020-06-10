@@ -1,8 +1,7 @@
 package infchan_test
 
 import (
-	"fmt"
-	"os"
+	"log"
 	"testing"
 	"time"
 
@@ -33,14 +32,20 @@ func TestInfChan(t *testing.T) {
 		break
 	}
 
-	time.AfterFunc(2*time.Second, func() {
-		os.Exit(0)
-	})
+	// time.AfterFunc(2*time.Second, func() {
+	// 	os.Exit(0)
+	// })
 
-	go func() {
-		for {
-			fmt.Println(infChan.Remove())
+	for {
+		select {
+		case i := <-infChan.Remove():
+			log.Println("got:", i)
 			time.Sleep(50 * time.Millisecond)
+			continue
+
+		default:
 		}
-	}()
+
+		break
+	}
 }

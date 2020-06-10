@@ -45,19 +45,15 @@ func (ic *InfChan) Insert(i interface{}) {
 	}
 }
 
-func (ic *InfChan) Remove() interface{} {
+func (ic *InfChan) Remove() <-chan interface{} {
 	ic.mut.Lock()
 	defer ic.mut.Unlock()
 
-	select {
-	case i := <-ic.chans[0]:
-		return i
-
-	default:
+	if len(ic.chans[0]) == 0 {
 		if len(ic.chans) > 1 {
 			ic.chans = append(ic.chans[1:])
 		}
 	}
 
-	return <-ic.chans[0]
+	return ic.chans[0]
 }
