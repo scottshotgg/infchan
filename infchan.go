@@ -9,11 +9,13 @@ const (
 	internalChanSize = 100
 )
 
-type InfChan struct {
-	mut     *sync.Mutex
-	current chan interface{}
-	chans   []chan interface{}
-}
+type (
+	InfChan struct {
+		mut     *sync.Mutex
+		current chan interface{}
+		chans   []chan interface{}
+	}
+)
 
 func New() *InfChan {
 	var ch = make(chan interface{}, internalChanSize)
