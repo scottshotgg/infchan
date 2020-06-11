@@ -1,7 +1,6 @@
 package infchan
 
 import (
-	"fmt"
 	"sync"
 )
 
@@ -32,7 +31,6 @@ func New() *InfChan {
 func (ic *InfChan) Insert(i interface{}) {
 	ic.mut.Lock()
 	defer ic.mut.Unlock()
-	fmt.Println("inserting:", i)
 
 	select {
 	case ic.current <- i:
